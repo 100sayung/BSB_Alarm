@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 public class SlackNotifier {
     
     public void sendSlackMsg(String msg) throws Exception{
-        String webhookUrl = "https://hooks.slack.com/services/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";
+        String webhookUrl = "https://hooks.slack.com/services/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";
 
       // Encode the message in UTF-8 format
        String encodedMessage = URLEncoder.encode(msg, "UTF-8");

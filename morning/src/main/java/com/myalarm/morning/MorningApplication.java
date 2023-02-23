@@ -3,6 +3,8 @@ package com.myalarm.morning;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
+
 @SpringBootApplication
 public class MorningApplication {
 
@@ -14,6 +16,8 @@ public class MorningApplication {
 		BusStopHandler busStopHandler = new BusStopHandler();
 		//bikeSeoulHandler.getBikeStationInfoAPI();
 		busStopHandler.sendBusMessage(busStopHandler.getBusStationInfo());
+
+
 	}
 
 } 
