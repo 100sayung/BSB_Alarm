@@ -3,6 +3,9 @@ package com.myalarm.morning;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.myalarm.morning.bikeSeoul.BikeSeoulHandler;
+import com.myalarm.morning.busStop.BusStopHandler;
+
 
 
 @SpringBootApplication
@@ -15,10 +18,14 @@ public class MorningApplication {
 		BikeSeoulHandler bikeSeoulHandler = new BikeSeoulHandler();
 		BusStopHandler busStopHandler = new BusStopHandler();
 		//bikeSeoulHandler.getBikeStationInfoAPI();
-		busStopHandler.sendBusMessage(busStopHandler.getBusStationInfo());
+		//busStopHandler.sendBusMessage(busStopHandler.getBusStationInfo());
 
 
+		//알람 타이머 맞추기  1=일요일, 7=토요일;
+		int[] arr = {2, 3, 4, 5, 6};
+		System.out.println(arr[1]);
+		AlarmTimer alarmTimer = new AlarmTimer(arr, 17, 40, 3);
+		alarmTimer.start();
 	}
-
 } 
 

@@ -1,4 +1,4 @@
-package com.myalarm.morning;
+package com.myalarm.morning.busStop;
 
 import lombok.Data;
 

@@ -1,4 +1,6 @@
-package com.myalarm.morning;
+package com.myalarm.morning.message;
+
+import com.myalarm.morning.busStop.BusStopInfo;
 
 public class MessageFactory {
     
