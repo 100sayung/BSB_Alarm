@@ -1,4 +1,5 @@
 package com.myalarm.morning;
+import java.time.DayOfWeek;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
@@ -29,7 +30,7 @@ public class AlarmTimer {
         // Schedule the first ring for the next available day
         Calendar cal = getNextAlarmTime();
         timer.schedule(new RingTask(), cal.getTime());
-System.out.println(cal.getTime());
+        System.out.println(cal.getTime());
         // Schedule subsequent rings at 3-minute intervals
         for (int i = 1; i < numRings; i++) {
             cal.add(Calendar.MINUTE, 3);
@@ -44,7 +45,7 @@ System.out.println(cal.getTime());
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
 
-        System.out.println(cal.get(Calendar.DAY_OF_WEEK));
+        System.out.println(cal.get(Calendar.DAY_OF_WEEK) + "!!");
         // Find the next day of the week that the alarm should ring on
         int today = cal.get(Calendar.DAY_OF_WEEK);
         int daysToAdd = 0;
@@ -54,12 +55,19 @@ System.out.println(cal.getTime());
                 daysToAdd = alarmDay - today;
                 break;
             }
+            if(i==daysOfWeek.length-1){
+              if(alarmDay<today){
+               daysToAdd=7-(today-daysOfWeek[0]);
+                }
+            }
         }
+
+
         if (daysToAdd == 0) {
 //            daysToAdd = 7 - today + daysOfWeek[0];
             System.out.println(Calendar.getInstance());
             if(hour<=Calendar.getInstance().get(Calendar.HOUR_OF_DAY)&&minute<=Calendar.getInstance().get(Calendar.MINUTE)){
-                daysToAdd =7;
+                daysToAdd =7-(today-daysOfWeek[0]);
             }
         }
         cal.add(Calendar.DAY_OF_WEEK, daysToAdd);
@@ -80,8 +88,11 @@ System.out.println(cal.getTime());
             }
             numRingsSoFar++;
             if (numRingsSoFar >= numRings) {
-                timer.cancel();
-                System.out.println("Alarm canceled.");
+                Calendar nextCal = getNextAlarmTime();
+                System.out.println(nextCal.getTime());
+                timer.schedule(new RingTask(), nextCal.getTime()) ;
+//                timer.cancel();
+                System.out.println("Alarm(NextDay)");
             } else {
                 // Schedule the next ring
                 Calendar cal = Calendar.getInstance();
