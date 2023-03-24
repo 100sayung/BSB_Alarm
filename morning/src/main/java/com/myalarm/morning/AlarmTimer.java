@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.json.JSONObject;
+
 import com.myalarm.morning.busStop.BusStopHandler;
 
 public class AlarmTimer {
@@ -14,7 +16,6 @@ public class AlarmTimer {
     private final int numRings;
     private int numRingsSoFar;
 
-    BusStopHandler busStopHandler;
     public AlarmTimer(int[] daysOfWeek, int hour, int minute, int numRings) {
         this.timer = new Timer();
         this.hour = hour;
@@ -69,10 +70,11 @@ System.out.println(cal.getTime());
     private class RingTask extends TimerTask {
         public void run() {
             System.out.println("RING!");
-
+            BusStopHandler busStopHandler = new BusStopHandler();
             System.out.println("알람이 울립니다!");
             try {
-                busStopHandler.sendBusMessage(busStopHandler.getBusStationInfo());
+                System.out.println(busStopHandler.getBusStationInfo());
+    //           busStopHandler.sendBusMessage(jobj);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -24,7 +24,7 @@ public class MorningApplication {
 		//알람 타이머 맞추기  1=일요일, 7=토요일;
 		int[] arr = {2, 3, 4, 5, 6};
 		System.out.println(arr[1]);
-		AlarmTimer alarmTimer = new AlarmTimer(arr, 17, 40, 3);
+		AlarmTimer alarmTimer = new AlarmTimer(arr, 10, 52, 3);
 		alarmTimer.start();
 	}
 } 
