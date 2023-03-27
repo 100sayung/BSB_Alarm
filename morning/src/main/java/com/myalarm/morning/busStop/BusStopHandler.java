@@ -20,8 +20,9 @@ public class BusStopHandler {
     public void sendBusMessage(JSONObject busObject) throws Exception{
 
         String msg = MessageFactory.makeBusStopMsgString(BusStopFactory.jsonObjtoBusObj(busObject));
-        SlackNotifier slackNotifier = new SlackNotifier();
-        slackNotifier.sendSlackMsg(msg);
+        System.out.println(msg);
+        //SlackNotifier slackNotifier = new SlackNotifier();
+        //slackNotifier.sendSlackMsg(msg);
 
     }
 
@@ -51,8 +52,5 @@ public class BusStopHandler {
         conn.disconnect();
         return BusStopFactory.extractObj(dataParser.xmlToJson(sb.toString()));
     }
-
-
-
 }
 

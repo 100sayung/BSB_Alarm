@@ -1,11 +1,7 @@
 package com.myalarm.morning;
-import java.time.DayOfWeek;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import org.json.JSONObject;
 
 import com.myalarm.morning.busStop.BusStopHandler;
 
@@ -29,13 +25,13 @@ public class AlarmTimer {
     public void start() {
         // Schedule the first ring for the next available day
         Calendar cal = getNextAlarmTime();
+        System.out.println("First Alarm Time" + cal.getTime());
         timer.schedule(new RingTask(), cal.getTime());
-        System.out.println(cal.getTime());
         // Schedule subsequent rings at 3-minute intervals
-        for (int i = 1; i < numRings; i++) {
-            cal.add(Calendar.MINUTE, 3);
-            timer.schedule(new RingTask(), cal.getTime());
-        }
+        //for (int i = 1; i < numRings; i++) {
+           // cal.add(Calendar.MINUTE, 3);
+        //timer.schedule(new RingTask(), cal.getTime());
+       // }
     }
 
     private Calendar getNextAlarmTime() {
@@ -51,25 +47,33 @@ public class AlarmTimer {
         int daysToAdd = 0;
         for (int i = 0; i < daysOfWeek.length; i++) {
             int alarmDay = daysOfWeek[i];
-            if (alarmDay >= today) {
+            if (alarmDay > today) {
                 daysToAdd = alarmDay - today;
                 break;
             }
+            if (alarmDay == today) {
+              if (hour >= Calendar.getInstance().get(Calendar.HOUR_OF_DAY)){
+                 if (minute >= Calendar.getInstance().get(Calendar.MINUTE)) {
+                    daysToAdd = 0;
+                    break;
+                   }
+               }
+             }
             if(i==daysOfWeek.length-1){
-              if(alarmDay<today){
+              if(alarmDay<=today){
                daysToAdd=7-(today-daysOfWeek[0]);
                 }
             }
         }
 
 
-        if (daysToAdd == 0) {
-//            daysToAdd = 7 - today + daysOfWeek[0];
-            System.out.println(Calendar.getInstance());
-            if(hour<=Calendar.getInstance().get(Calendar.HOUR_OF_DAY)&&minute<=Calendar.getInstance().get(Calendar.MINUTE)){
-                daysToAdd =7-(today-daysOfWeek[0]);
-            }
-        }
+//         if (daysToAdd == 0) {
+// //            daysToAdd = 7 - today + daysOfWeek[0];
+//             System.out.println(Calendar.getInstance());
+//             if(hour<=Calendar.getInstance().get(Calendar.HOUR_OF_DAY)&&minute<=Calendar.getInstance().get(Calendar.MINUTE)){
+//                 daysToAdd =7-(today-daysOfWeek[0]);
+//             }
+//         }
         cal.add(Calendar.DAY_OF_WEEK, daysToAdd);
 
         return cal;
@@ -81,22 +85,33 @@ public class AlarmTimer {
             BusStopHandler busStopHandler = new BusStopHandler();
             System.out.println("알람이 울립니다!");
             try {
-                System.out.println(busStopHandler.getBusStationInfo());
-    //           busStopHandler.sendBusMessage(jobj);
+                busStopHandler.sendBusMessage(busStopHandler.getBusStationInfo());
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+
             numRingsSoFar++;
+            System.out.println(numRingsSoFar);
             if (numRingsSoFar >= numRings) {
                 Calendar nextCal = getNextAlarmTime();
                 System.out.println(nextCal.getTime());
+                System.out.println("Alarm(NextDay)");
+                numRingsSoFar=0;
+                try {
+                    Thread.sleep(59500); //sleep 안하면 1분동안 계속반복해서 울림..
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 timer.schedule(new RingTask(), nextCal.getTime()) ;
 //                timer.cancel();
-                System.out.println("Alarm(NextDay)");
             } else {
                 // Schedule the next ring
                 Calendar cal = Calendar.getInstance();
-                cal.add(Calendar.MINUTE, 3);
+                cal.add(Calendar.MINUTE, 2); //기다리는 시간 : amount 2.
+                System.out.println("Here is else.");
+                System.out.println("Re-Alarm in same day" + cal.getTime());
                 timer.schedule(new RingTask(), cal.getTime());
             }
         }
