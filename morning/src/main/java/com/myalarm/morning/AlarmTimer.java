@@ -3,6 +3,7 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.myalarm.morning.bikeSeoul.BikeSeoulHandler;
 import com.myalarm.morning.busStop.BusStopHandler;
 
 public class AlarmTimer {
@@ -83,9 +84,11 @@ public class AlarmTimer {
         public void run() {
             System.out.println("RING!");
             BusStopHandler busStopHandler = new BusStopHandler();
+            BikeSeoulHandler bikeSeoulHandler = new BikeSeoulHandler();
             System.out.println("알람이 울립니다!");
             try {
                 busStopHandler.sendBusMessage(busStopHandler.getBusStationInfo());
+                bikeSeoulHandler.sendBikeMessage(bikeSeoulHandler.getBikeStationInfo());
             } catch (Exception e) {
                 e.printStackTrace();
             }

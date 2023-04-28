@@ -66,6 +66,9 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<jvmarguments>
+						-Djennifer.config=/u02/project/sw/jennifer/agent.java/conf/Alarm.conf -javaagent:/u02/project/sw/jennifer/agent.java/jennifer.jdk8.jar
+					</jvmarguments>
 				</configuration>
 			</plugin>
 		</plugins>

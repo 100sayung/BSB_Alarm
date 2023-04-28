@@ -1,5 +1,6 @@
 package com.myalarm.morning.bikeSeoul;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -7,16 +8,18 @@ public class BikeSeoulFactory {
     
     public static JSONObject extractObj(String jsonData){
 
-        JSONObject busOjbect = new JSONObject(jsonData).getJSONObject("ServiceResult")
-                             .getJSONObject("msgBody")
-                             .getJSONObject("itemList");
-        return busOjbect;
+        JSONArray bikeArray = new JSONObject(jsonData).getJSONObject("rentBikeStatus")
+                             .getJSONArray("row");
+        return bikeArray.getJSONObject(0);
     }
 
-    public static BikeSeoulInfo jsonObjtoBusObj(JSONObject busObject){
+    public static BikeSeoulInfo jsonObjtoBikeObj(JSONObject bikeObject){
 
         BikeSeoulInfo bikeSeoulInfo = new BikeSeoulInfo();
-        
+
+        bikeSeoulInfo.setStationId(bikeObject.getString("stationId"));
+        bikeSeoulInfo.setParkingBikeTotCnt(bikeObject.getString("parkingBikeTotCnt"));
+
         return bikeSeoulInfo;
     }
 }

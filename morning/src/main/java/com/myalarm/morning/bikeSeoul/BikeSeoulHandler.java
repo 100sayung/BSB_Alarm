@@ -3,18 +3,32 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
+import com.myalarm.morning.message.MessageFactory;
 
 public class BikeSeoulHandler {
 
+        public void sendBikeMessage(JSONObject bikeObject) throws Exception{
+
+                String msg = MessageFactory.makeBikeSeoulMsgString(BikeSeoulFactory.jsonObjtoBikeObj(bikeObject));
+                System.out.println(msg);
+                //SlackNotifier slackNotifier = new SlackNotifier();
+                //slackNotifier.sendSlackMsg(msg);
+        
+            }
+
+        
         //정류장 정보 얻기
-        String getBikeStationInfoAPI() throws Exception {
+        public JSONObject getBikeStationInfo() throws Exception {
                 StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088"); /*URL*/
                 urlBuilder.append("/" + URLEncoder.encode("7a684e544b76696f3831474e6c7a4c", "UTF-8")); /*인증키 (sample사용시에는 호출시 제한됩니다.)*/
                 urlBuilder.append("/" + URLEncoder.encode("json", "UTF-8")); /*요청파일타입 (xml,xmlf,xls,json) */
-                urlBuilder.append("/" + URLEncoder.encode("tbCycleStationInfo", "UTF-8")); /*서비스명 (대소문자 구분 필수입니다.)*/
-                urlBuilder.append("/" + URLEncoder.encode("1875", "UTF-8")); /*요청시작위치 (sample인증키 사용시 5이내 숫자)*/
-                urlBuilder.append("/" + URLEncoder.encode("1875", "UTF-8")); /*요청종료위치(sample인증키 사용시 5이상 숫자 선택 안 됨)*/
+                urlBuilder.append("/" + URLEncoder.encode("bikeList", "UTF-8")); /*서비스명 (대소문자 구분 필수입니다.)*/
+                urlBuilder.append("/" + URLEncoder.encode("2416", "UTF-8")); /*요청시작위치 (sample인증키 사용시 5이내 숫자)*/
+                urlBuilder.append("/" + URLEncoder.encode("2416", "UTF-8")); /*요청종료위치(sample인증키 사용시 5이상 숫자 선택 안 됨)*/
                 // 1875 = 신길역 2번출구
                 // 2459 = 국민일보 앞
                 // 2727 = 여의나루 1번출구
@@ -42,8 +56,8 @@ public class BikeSeoulHandler {
                 }
                 rd.close();
                 conn.disconnect();
-                System.out.println(sb.toString());
-                return sb.toString();
+                return BikeSeoulFactory.extractObj(sb.toString());
+
         }
 
 }
